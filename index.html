@@ -252,7 +252,7 @@
     /* ── HERO ── */
     .hero {
       min-height: 100vh; display: flex; flex-direction: column;
-      justify-content: center; padding-top: 8rem; padding-bottom: 8rem; position: relative; overflow: hidden; z-index: 1;
+      justify-content: center; padding-top: 8rem; padding-bottom: 3rem; position: relative; overflow: hidden; z-index: 1;
     }
 
     /* ════════ SOFT PREMIUM HERO ════════ */
@@ -415,107 +415,105 @@
     .hero-cta--soft { opacity: 0; transform: translateY(14px); }
     .reveal .hero-cta--soft { opacity: 1; transform: none; transition: opacity 0.9s ease 0.85s, transform 0.9s cubic-bezier(0.19,1,0.22,1) 0.85s; }
 
+    /* ── availability chip ── */
+    /* ── availability chip (fixed at nav level) ── */
+    .hero-status {
+      position: fixed; top: 1.4rem; left: 1.6rem; z-index: 101;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.74rem; letter-spacing: 0.01em; text-transform: none;
+      color: var(--fg-muted);
+      padding: 0.45rem 0.7rem 0.45rem 0.8rem; border-radius: 999px;
+      background: rgba(255,255,255,0.48);
+      backdrop-filter: blur(36px) saturate(200%); -webkit-backdrop-filter: blur(36px) saturate(200%);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 28px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.04);
+      opacity: 0; animation: softUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hero-status:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 12px 36px rgba(0,0,0,0.12), 0 0 0 0.5px rgba(0,0,0,0.06); }
+    .hero-status__dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #16b67a; position: relative; flex-shrink: 0;
+    }
+    .hero-status__dot::after {
+      content: ''; position: absolute; inset: -2px; border-radius: 50%;
+      background: #16b67a; opacity: 0.4;
+      animation: statusPulse 2.4s ease-out infinite;
+    }
+    .hero-status b { font-weight: 500; color: var(--fg); }
+    @keyframes statusPulse {
+      0% { transform: scale(0.7); opacity: 0.45; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+    @media (max-width: 959px) {
+      .hero-status {
+        top: 1.5rem; left: 1.2rem;
+        font-size: 0.68rem; padding: 0.4rem 0.65rem 0.4rem 0.7rem;
+      }
+    }
+
+    /* ── proof / clickable logo links ── */
+    .hero-proof {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 1.1rem;
+      margin-top: 2.4rem;
+      opacity: 0; animation: softUp 0.9s cubic-bezier(0.16,1,0.3,1) 1s forwards;
+    }
+    .hero-proof__label {
+      font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--fg-subtle); white-space: nowrap;
+    }
+    .hero-proof__logos { display: flex; align-items: center; gap: 0.4rem 1.3rem; flex-wrap: wrap; }
+    .hero-proof__logos a {
+      font-size: 0.82rem; font-weight: 600; letter-spacing: -0.01em;
+      color: var(--fg-muted); opacity: 0.7; text-decoration: none;
+      position: relative; transition: opacity 0.3s ease, color 0.3s ease;
+    }
+    .hero-proof__logos a::after {
+      content: ''; position: absolute; left: 0; bottom: -3px; width: 100%; height: 1px;
+      background: currentColor; transform: scaleX(0); transform-origin: left;
+      transition: transform 0.32s cubic-bezier(0.22,1,0.36,1);
+    }
+    .hero-proof__logos a:hover { opacity: 1; color: var(--fg); }
+    .hero-proof__logos a:hover::after { transform: scaleX(1); }
+    .hero-proof__sep { width: 1px; height: 13px; background: rgba(10,10,10,0.14); }
+
+    /* ── scroll indicator: drifting double-chevron ── */
     .scroll-orbit {
       position: absolute;
       left: 50%;
-      bottom: clamp(2.4rem, 6vh, 4.5rem);
+      bottom: clamp(2.4rem, 6vh, 4rem);
       z-index: 3;
-      width: 118px;
-      height: 118px;
-      --scroll-orbit-hover-y: 0px;
-      --scroll-orbit-hover-scale: 1;
+      width: 26px;
+      height: 40px;
       transform: translateX(-50%);
-      color: rgba(10,10,10,0.82);
       opacity: 0;
       text-decoration: none;
-      border-radius: 50%;
-      animation: scrollOrbitEnter 0.9s cubic-bezier(0.16,1,0.3,1) 1.6s forwards,
-                 scrollOrbitFloat 4.8s cubic-bezier(0.45,0,0.2,1) 2.5s infinite;
-      transition: color 0.35s ease, transform 0.45s cubic-bezier(0.22,1,0.36,1);
+      color: rgba(10,10,10,0.55);
+      animation: scrollOrbitEnter 0.9s cubic-bezier(0.16,1,0.3,1) 1.6s forwards;
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), color 0.3s ease, opacity 0.4s ease;
     }
-    .scroll-orbit::before {
-      content: '';
-      position: absolute;
-      inset: 17px;
-      border: 1px solid rgba(10,10,10,0.5);
-      border-radius: 50%;
-      background: rgba(255,255,255,0.16);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.75),
-        0 18px 38px rgba(86,74,145,0.12),
-        0 3px 10px rgba(10,10,10,0.05);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    .scroll-orbit svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .scroll-chev {
+      stroke: currentColor; stroke-width: 1.6;
+      stroke-linecap: round; stroke-linejoin: round; fill: none;
     }
-    .scroll-orbit::after {
-      content: '';
-      position: absolute;
-      inset: 1px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.42);
-      opacity: 0.8;
-    }
-    .scroll-orbit:hover {
-      color: rgba(10,10,10,0.96);
-      --scroll-orbit-hover-y: -2px;
-      --scroll-orbit-hover-scale: 1.025;
-    }
-    .scroll-orbit:hover::before {
-      border-color: rgba(10,10,10,0.72);
-      background: rgba(255,255,255,0.28);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.85),
-        0 22px 44px rgba(86,74,145,0.16),
-        0 4px 14px rgba(10,10,10,0.07);
-    }
-    .scroll-orbit svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-    }
-    .scroll-orbit__text {
-      transform-origin: 60px 60px;
-      animation: scrollOrbitRotate 12s linear infinite;
-      will-change: transform;
-    }
-    .scroll-orbit__text text {
-      fill: rgba(10,10,10,0.6);
-      font-size: 8.7px;
-      font-weight: 600;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-    }
-    .scroll-orbit__arrow {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-    .scroll-orbit__arrow svg {
-      width: 24px;
-      height: 24px;
-      filter: drop-shadow(0 5px 12px rgba(82,70,201,0.14));
+    .scroll-chev--1 { animation: chevDrift 2.2s cubic-bezier(0.5,0,0.4,1) infinite; }
+    .scroll-chev--2 { animation: chevDrift 2.2s cubic-bezier(0.5,0,0.4,1) infinite 0.18s; }
+    .scroll-orbit:hover { color: rgba(10,10,10,0.9); transform: translateX(-50%) translateY(3px); }
+    .scroll-orbit.is-hidden { opacity: 0 !important; pointer-events: none; transform: translateX(-50%) translateY(10px); }
+
+    @keyframes chevDrift {
+      0% { opacity: 0; transform: translateY(-5px); }
+      35% { opacity: 1; }
+      70% { opacity: 1; transform: translateY(4px); }
+      100% { opacity: 0; transform: translateY(9px); }
     }
     @keyframes scrollOrbitEnter {
       from { opacity: 0; transform: translate(-50%, 12px); filter: blur(6px); }
       to { opacity: 1; transform: translate(-50%, 0); filter: blur(0); }
     }
-    @keyframes scrollOrbitFloat {
-      0%, 100% { transform: translateX(-50%) translateY(var(--scroll-orbit-hover-y)) scale(var(--scroll-orbit-hover-scale)); }
-      50% { transform: translateX(-50%) translateY(calc(8px + var(--scroll-orbit-hover-y))) scale(var(--scroll-orbit-hover-scale)); }
-    }
-    @keyframes scrollOrbitRotate {
-      to { transform: rotate(360deg); }
-    }
     @media (max-width: 640px) {
-      .scroll-orbit { width: 96px; height: 96px; bottom: 1.45rem; }
-      .scroll-orbit::before { inset: 14px; }
-      .scroll-orbit__text text { font-size: 9.2px; letter-spacing: 0.2em; }
-      .scroll-orbit__arrow svg { width: 21px; height: 21px; }
+      .scroll-orbit { width: 22px; height: 34px; bottom: 1.45rem; }
     }
 
     @keyframes softUp {
@@ -534,7 +532,8 @@
       .hero-cta--soft { opacity: 1 !important; transform: none !important; }
       .scroll-orbit, .scroll-orbit * { animation: none !important; opacity: 1 !important; }
       .scroll-orbit, .scroll-orbit:hover { transform: translateX(-50%) !important; }
-      .scroll-orbit__text { transform: none !important; }
+      .scroll-chev--2 { opacity: 0.55 !important; }
+      .hero-status__dot::after { animation: none !important; opacity: 0 !important; }
     }
     .hero-split { display: flex; flex-direction: column; gap: 4rem; }
     @media (min-width: 1024px) {
@@ -987,6 +986,8 @@
   </ul>
 </nav>
 
+<span class="hero-status"><span class="hero-status__dot"></span><b>available</b>&nbsp;for freelance</span>
+
 <section class="hero hero--soft">
   <div class="mesh" aria-hidden="true">
     <span class="mesh-blob mb1"></span>
@@ -1019,24 +1020,23 @@
 	      <a href="#contact" class="btn-primary"><span class="btn-label">Get in touch</span><span class="btn-chevron"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></a>
 	      <a href="https://drive.google.com/file/d/1-EEWymQsCb_EdP1TglGtTajgtSKSaVPw/view?usp=drivesdk" target="_blank" rel="noopener" class="btn-resume"><span class="resume-icon">⬇︎</span>View Resume</a>
 	    </div>
+
+	    <div class="hero-proof">
+	      <span class="hero-proof__label">worked with</span>
+	      <div class="hero-proof__logos">
+	        <a href="https://interiorplus.asia" target="_blank" rel="noopener">Interior+ Asia</a>
+	        <span class="hero-proof__sep"></span>
+	        <a href="https://rucksackinn.com" target="_blank" rel="noopener">Rucksack Inn</a>
+	        <span class="hero-proof__sep"></span>
+	        <a href="https://www.majesticmalacca.com" target="_blank" rel="noopener">The Majestic</a>
+	      </div>
+	    </div>
 	  </div>
 	  <a class="scroll-orbit" href="#about" aria-label="Scroll to About section">
-	    <svg viewBox="0 0 120 120" aria-hidden="true">
-	      <defs>
-	        <path id="scrollOrbitPath" d="M60 13.5a46.5 46.5 0 1 1 0 93a46.5 46.5 0 1 1 0-93" />
-	      </defs>
-	      <g class="scroll-orbit__text">
-	        <text>
-	          <textPath href="#scrollOrbitPath" startOffset="50%" text-anchor="middle">SCROLL • SCROLL • SCROLL •</textPath>
-	        </text>
-	      </g>
+	    <svg viewBox="0 0 26 40" aria-hidden="true">
+	      <polyline class="scroll-chev scroll-chev--1" points="5 14 13 21 21 14" />
+	      <polyline class="scroll-chev scroll-chev--2" points="5 22 13 29 21 22" />
 	    </svg>
-	    <span class="scroll-orbit__arrow" aria-hidden="true">
-	      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
-	        <path d="M12 4.8v13.4" />
-	        <path d="m6.8 13 5.2 5.2 5.2-5.2" />
-	      </svg>
-	    </span>
 	  </a>
 	</section>
 
@@ -1518,10 +1518,12 @@ document.querySelectorAll('.glass-card').forEach(card => {
 /* ─── SCROLL PROGRESS ─── */
 (function(){
   const bar = document.getElementById('scroll-progress');
+  const arrow = document.querySelector('.scroll-orbit');
   window.addEventListener('scroll', () => {
     const total = document.body.scrollHeight - window.innerHeight;
     const pct   = total > 0 ? (window.scrollY / total) * 100 : 0;
     bar.style.width = pct + '%';
+    if (arrow) arrow.classList.toggle('is-hidden', window.scrollY > 80);
   }, { passive: true });
 })();
 
