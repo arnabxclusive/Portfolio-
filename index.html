@@ -8,11 +8,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; tap-highlight-color: transparent; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     a, button, [role="button"], input, textarea, select, summary, label {
       -webkit-tap-highlight-color: transparent;
-      tap-highlight-color: transparent;
       -webkit-touch-callout: none;
       outline: none;
     }
@@ -34,7 +33,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background: transparent;
       color: var(--fg);
       font-family: 'Inter', sans-serif;
       font-size: 16px;
@@ -55,9 +54,7 @@
     .aurora-wrapper.energized { transform: scale(1.03); }
     
     .aurora-frost {
-      position: absolute; inset: -100px;
-      backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px);
-      z-index: 2; pointer-events: none;
+      display: none;
     }
 
     .aurora-layer {
@@ -76,6 +73,7 @@
     .orb-3 { width: 85vw; height: 85vw; background: #F6E3EC; bottom: -35vh; left: 5vw; border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%; animation-duration: 61s; }
     .orb-4 { width: 60vw; height: 60vw; background: #E7EEFF; top: 15vh; left: 25vw; border-radius: 40% 60% 55% 45% / 50% 50% 45% 55%; animation-duration: 43s; animation-direction: alternate; }
     .orb-5 { width: 50vw; height: 50vw; background: #E8DFFF; bottom: 25vh; right: 15vw; border-radius: 55% 45% 40% 60% / 45% 55% 60% 40%; animation-duration: 59s; }
+    .orb-6 { width: 65vw; height: 65vw; background: #F0E5FA; top: 78vh; left: 12vw; border-radius: 52% 48% 45% 55% / 48% 52% 55% 45%; animation-duration: 49s; animation-direction: alternate; }
 
     @keyframes auroraFloat {
       0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
@@ -251,8 +249,8 @@
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh; display: flex; flex-direction: column;
-      justify-content: center; padding-top: 8rem; padding-bottom: 3rem; position: relative; overflow: hidden; z-index: 1;
+      min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column;
+      justify-content: center; padding-top: 8rem; padding-bottom: 6.5rem; position: relative; overflow: hidden; z-index: 1;
     }
 
     /* ════════ SOFT PREMIUM HERO ════════ */
@@ -451,6 +449,11 @@
         font-size: 0.68rem; padding: 0.4rem 0.65rem 0.4rem 0.7rem;
       }
     }
+    @media (min-width: 960px) {
+      .hero-status {
+        top: auto; bottom: 2rem; left: 2rem;
+      }
+    }
 
     /* ── proof / clickable logo links ── */
     .hero-proof {
@@ -479,12 +482,14 @@
 
     /* ── scroll indicator: drifting double-chevron ── */
     .scroll-orbit {
-      position: absolute;
+      position: fixed;
       left: 50%;
-      bottom: clamp(2.4rem, 6vh, 4rem);
-      z-index: 3;
-      width: 26px;
-      height: 40px;
+      bottom: max(2.1rem, env(safe-area-inset-bottom));
+      z-index: 90;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
       transform: translateX(-50%);
       opacity: 0;
       text-decoration: none;
@@ -492,7 +497,7 @@
       animation: scrollOrbitEnter 0.9s cubic-bezier(0.16,1,0.3,1) 1.6s forwards;
       transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), color 0.3s ease, opacity 0.4s ease;
     }
-    .scroll-orbit svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .scroll-orbit svg { display: block; width: 26px; height: 40px; overflow: visible; }
     .scroll-chev {
       stroke: currentColor; stroke-width: 1.6;
       stroke-linecap: round; stroke-linejoin: round; fill: none;
@@ -513,7 +518,9 @@
       to { opacity: 1; transform: translate(-50%, 0); filter: blur(0); }
     }
     @media (max-width: 640px) {
-      .scroll-orbit { width: 22px; height: 34px; bottom: 1.45rem; }
+      .hero { padding-top: 7.25rem; padding-bottom: 5.75rem; }
+      .scroll-orbit { bottom: max(1.15rem, env(safe-area-inset-bottom)); }
+      .scroll-orbit svg { width: 22px; height: 34px; }
     }
 
     @keyframes softUp {
@@ -596,6 +603,14 @@
     }
 
     .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeInUp 0.6s ease 3.4s forwards; }
+    @media (max-width: 480px) {
+      .hero-cta { width: 100%; gap: 0.75rem; }
+      .hero-cta .btn-primary,
+      .hero-cta .btn-resume {
+        width: 100%;
+        justify-content: center;
+      }
+    }
     
     /* ── BUTTONS ── */
     .btn-primary, .btn-resume {
@@ -638,20 +653,6 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 14px 36px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.07);
     }
     .resume-icon { font-size: 0.9rem; position: relative; z-index: 2; }
-
-    /* ── POP-UP MARQUEE ── */
-    .popup-skills-wrap {
-      height: 80px; display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.25); backdrop-filter: blur(8px);
-      border-top: 1px solid rgba(255,255,255,0.6); border-bottom: 1px solid rgba(255,255,255,0.6);
-      position: relative; overflow: hidden; z-index: 1;
-    }
-    .popup-skill {
-      position: absolute; font-size: 1.1rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg); font-weight: 600;
-      opacity: 0; transform: translateY(30px) scale(0.9); transition: all 0.6s cubic-bezier(0.22,1,0.36,1);
-    }
-    .popup-skill.active { opacity: 1; transform: translateY(0) scale(1); }
-    .popup-skill.exit { opacity: 0; transform: translateY(-30px) scale(1.1); }
 
     /* ── ABOUT ── */
     .about-grid { display: grid; grid-template-columns: 1fr; gap: 5rem; align-items: start; }
@@ -831,7 +832,7 @@
     }
     .g-btn-dark { background: rgba(10,10,10,0.88); color: rgba(255,255,255,0.96); border: 1px solid rgba(255,255,255,0.12); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 6px 18px rgba(0,0,0,0.22); }
     .g-btn-dark:hover { background: rgba(28,28,28,0.92); transform: translateY(-2px) scale(1.03); box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 10px 24px rgba(0,0,0,0.26); }
-    #game-msg, #mem-msg { font-size: 0.7rem; color: var(--fg-subtle); letter-spacing: 0.08em; }
+    #game-msg { font-size: 0.7rem; color: var(--fg-subtle); letter-spacing: 0.08em; }
 
     /* ── REALITY CHECK ── */
     .reality-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3rem; }
@@ -855,10 +856,18 @@
     .contact-link {
       display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 2rem; text-decoration: none; color: var(--fg);
       font-size: 0.85rem; border-radius: var(--radius-sm); transition: transform 0.25s cubic-bezier(0.22,1,0.36,1);
+      gap: 1rem;
     }
     .contact-link:hover { transform: translateX(6px); }
-    .contact-link-label { letter-spacing: 0.06em; }
+    .contact-link-label { letter-spacing: 0.06em; min-width: 0; overflow-wrap: anywhere; }
     .contact-link-arrow { color: var(--fg-subtle); font-size: 0.9rem; }
+    @media (max-width: 480px) {
+      section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .contact-link { padding: 1.2rem 1.25rem; align-items: flex-start; }
+      .contact-link:hover { transform: none; }
+      .game-actions { align-items: flex-start; flex-direction: column; }
+      #game-msg { line-height: 1.5; }
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -961,6 +970,9 @@
   <div class="aurora-layer" data-speed="0.02">
     <div class="aurora-orb orb-5"></div>
   </div>
+  <div class="aurora-layer" data-speed="0.06">
+    <div class="aurora-orb orb-6"></div>
+  </div>
   <div class="aurora-frost"></div>
 </div>
 
@@ -969,19 +981,19 @@
 </div>
 
 <nav id="glass-nav">
-  <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+  <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
     <span class="menu-toggle-ripple"></span>
     <span class="menu-toggle-bars"><span></span><span></span><span></span></span>
   </button>
-  <ul class="nav-links">
+  <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#impact">Work</a></li>
     <li><a href="#reality-check">Reality</a></li>
     <li><a href="#how-i-work">Process</a></li>
     <li><a href="#playground-1">Play</a></li>
-    <li><a href="#faq">FAQ</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -1421,65 +1433,10 @@ function initScrollReveal() {
   document.querySelectorAll('.anim-group').forEach(el => observer.observe(el));
 }
 
-/* ─── FALLING LETTERS SCROLL PARALLAX ─── */
-(function(){
-  const letters = document.querySelectorAll('#hero-greeting-letters .letter');
-  if(!letters.length) return;
-  
-  let scrollY = window.scrollY;
-  let isTicking = false;
-
-  window.addEventListener('scroll', () => {
-    scrollY = window.scrollY;
-    if (!isTicking) {
-      window.requestAnimationFrame(() => {
-        updateLetters();
-        isTicking = false;
-      });
-      isTicking = true;
-    }
-  }, { passive: true });
-
-  function updateLetters() {
-    letters.forEach((l, i) => {
-      const threshold = i * 15; 
-      if(scrollY > threshold) {
-        const diff = scrollY - threshold;
-        const fallY = diff * 0.95; 
-        const rot = diff * 0.05 * (i % 2 === 0 ? 1 : -1); 
-        
-        l.style.transform = `translateY(${fallY}px) rotate(${rot}deg)`;
-        l.style.opacity = Math.max(1 - diff / 280, 0);
-      } else {
-        l.style.transform = '';
-        l.style.opacity = '';
-      }
-    });
-  }
-})();
-
-/* ─── POP-UP MARQUEE LOGIC ─── */
-(function(){
-  const skills = document.querySelectorAll('.popup-skill');
-  let currentSkill = 0;
-  if(skills.length) {
-    skills[0].classList.add('active');
-    setInterval(() => {
-      skills[currentSkill].classList.remove('active');
-      skills[currentSkill].classList.add('exit');
-      
-      const prevSkill = currentSkill;
-      setTimeout(() => { skills[prevSkill].classList.remove('exit'); }, 500);
-      
-      currentSkill = (currentSkill + 1) % skills.length;
-      skills[currentSkill].classList.add('active');
-    }, 2000);
-  }
-})();
-
 /* ─── AUTO-SLIDE CARD STACKS ─── */
 (function() {
   const grids = document.querySelectorAll('.work-grid, .skills-grid');
+  if (!grids.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   
   setInterval(() => {
     grids.forEach(grid => {
@@ -1529,7 +1486,7 @@ document.querySelectorAll('.glass-card').forEach(card => {
 
 /* ─── MAGNETIC BUTTONS ─── */
 (function(){
-  const targets = document.querySelectorAll('.btn-primary, .btn-outline, .btn-resume, .g-btn, .tech-logo-pill');
+  const targets = document.querySelectorAll('.btn-primary, .btn-resume, .g-btn, .tech-logo-pill');
   targets.forEach(btn => {
     btn.addEventListener('mousemove', e => {
       const r  = btn.getBoundingClientRect();
@@ -1794,10 +1751,16 @@ document.querySelectorAll('.glass-card').forEach(card => {
   });
   if(canvas) {
     canvas.addEventListener('click', jump);
-    canvas.addEventListener('touchstart', e => { e.preventDefault(); jump(); }, {passive:false});
     let touchY = 0;
-    canvas.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, {passive:true});
-    canvas.addEventListener('touchend', e => { const dy = e.changedTouches[0].clientY - touchY; if(dy > 30) slide(); }, {passive:true});
+    canvas.addEventListener('touchstart', e => {
+      touchY = e.touches[0].clientY;
+      e.preventDefault();
+      jump();
+    }, {passive:false});
+    canvas.addEventListener('touchend', e => {
+      const dy = e.changedTouches[0].clientY - touchY;
+      if(dy > 30) slide();
+    }, {passive:true});
   }
   if(startBtn) { startBtn.addEventListener('click', () => { if(dead) restartGame(); else if(!running) startGame(); }); }
   if(canvas) { draw(); requestAnimationFrame(loop); running = false; }
