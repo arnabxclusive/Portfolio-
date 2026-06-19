@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -945,6 +944,57 @@
       .aurora-orb { animation: none !important; }
     }
     
+  
+/* ===== iPhone live-work showcase in hero (ipx-) ===== */
+.ipx-hero-art{ --ipx-pw:clamp(212px,21vw,296px); position:relative; display:flex; flex-direction:column; align-items:center; margin-top:3rem; z-index:2; }
+.ipx-stage{ position:relative; perspective:1500px; perspective-origin:50% 45%; display:grid; place-items:center; padding:16px 0 20px; }
+.ipx-stage::before{ content:""; position:absolute; width:78%; height:62%; left:11%; top:14%;
+  background:radial-gradient(50% 50% at 50% 50%, rgba(196,158,92,.24), transparent 70%); filter:blur(24px); pointer-events:none; }
+.ipx-shadow{ position:absolute; bottom:6%; left:50%; width:48%; height:4.5%; transform:translateX(-50%);
+  border-radius:50%; background:rgba(10,10,10,.30); filter:blur(22px); animation:ipx-shadow 9s ease-in-out infinite; }
+@keyframes ipx-shadow{ 0%,100%{opacity:.5;transform:translateX(-50%) scale(.9)} 50%{opacity:.32;transform:translateX(-50%) scale(1.05)} }
+.ipx-tilt{ transform-style:preserve-3d; will-change:transform; }
+.ipx-float{ transform-style:preserve-3d; will-change:transform; animation:ipx-bob 9s ease-in-out infinite; }
+@keyframes ipx-bob{ 0%,100%{transform:translateY(-9px) rotateZ(-.4deg)} 50%{transform:translateY(9px) rotateZ(.4deg)} }
+.ipx-phone{ position:relative; width:var(--ipx-pw); height:calc(var(--ipx-pw)*2.16); border-radius:14%/6.5%;
+  transform-style:preserve-3d; padding:1.7%;
+  background:linear-gradient(145deg,#3a3b3f,#202124 22%,#17181b 50%,#26272b 78%,#3a3b3f);
+  box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 0 0 1px rgba(0,0,0,.6),
+    0 30px 60px -18px rgba(20,16,8,.40),0 70px 120px -52px rgba(196,158,92,.42); }
+.ipx-phone::before{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px;
+  background:linear-gradient(135deg,#6b6d72,#2a2b2e 30%,#0d0d0f 50%,#2a2b2e 70%,#6b6d72);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+.ipx-rail{ position:absolute; background:#54565b; border-radius:2px; }
+.ipx-power{ right:-2px; top:30%; width:3px; height:11%; }
+.ipx-vu{ left:-2px; top:24%; width:3px; height:7%; }
+.ipx-vd{ left:-2px; top:34%; width:3px; height:7%; }
+.ipx-mute{ left:-2px; top:16%; width:3px; height:4.5%; }
+.ipx-screen{ position:relative; width:100%; height:100%; border-radius:11.5%/5.7%; overflow:hidden; background:#000; box-shadow:0 0 0 2px #000 inset; }
+.ipx-island{ position:absolute; top:2.4%; left:50%; transform:translateX(-50%); width:30%; height:3.6%; background:#040405; border-radius:999px; z-index:6; }
+.ipx-gloss{ position:absolute; inset:0; z-index:7; pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.10) 44%,rgba(255,255,255,.02) 52%,transparent 66%);
+  mix-blend-mode:screen; animation:ipx-sweep 9s ease-in-out infinite; }
+@keyframes ipx-sweep{ 0%,100%{transform:translateX(-14%);opacity:.5} 50%{transform:translateX(14%);opacity:.9} }
+.ipx-deck{ position:absolute; inset:0; z-index:1; }
+.ipx-frame{ position:absolute; inset:0; opacity:0; visibility:hidden; will-change:opacity; }
+.ipx-frame.ipx-live{ opacity:1; visibility:visible; }
+.ipx-reel{ position:absolute; top:0; left:0; width:100%; will-change:transform; }
+.ipx-reel img{ display:block; width:100%; height:auto; }
+.ipx-cap{ text-align:center; margin-top:1.5rem; }
+.ipx-cap .ipx-idx{ font-size:.62rem; letter-spacing:.32em; text-transform:uppercase; color:var(--fg-subtle); margin-bottom:.45rem; }
+.ipx-cap .ipx-nm{ font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--fg); transition:opacity .45s ease; }
+.ipx-cap .ipx-nm a{ color:inherit; text-decoration:none; border-bottom:1px solid var(--border); padding-bottom:1px; transition:border-color .3s ease; }
+.ipx-cap .ipx-nm a:hover{ border-color:var(--fg); }
+.ipx-cap.ipx-swap .ipx-nm{ opacity:0; }
+@media (max-width:767px){ .ipx-hero-art{ display:none; } }
+@media (min-width:768px){
+  .hero.hero--soft{ flex-direction:row; align-items:center; justify-content:space-between; gap:clamp(1.4rem,4vw,5rem); }
+  .hero--soft .hero-soft-stack{ flex:1 1 auto; max-width:600px; min-width:0; }
+  .ipx-hero-art{ flex:0 0 auto; margin-top:0; --ipx-pw:clamp(178px,23vw,288px); }
+}
+@media (prefers-reduced-motion:reduce){ .ipx-float,.ipx-gloss,.ipx-shadow{ animation:none; } }
+
   </style>
 </head>
 <body>
@@ -1042,7 +1092,29 @@
 	      </div>
 	    </div>
 	  </div>
-	  <a class="scroll-orbit" href="#about" aria-label="Scroll to About section">
+	  <div class="ipx-hero-art" id="ipx-art">
+    <div class="ipx-stage">
+      <div class="ipx-shadow"></div>
+      <div class="ipx-tilt" id="ipx-tilt">
+        <div class="ipx-float">
+          <div class="ipx-phone">
+            <span class="ipx-rail ipx-mute"></span><span class="ipx-rail ipx-vu"></span>
+            <span class="ipx-rail ipx-vd"></span><span class="ipx-rail ipx-power"></span>
+            <div class="ipx-screen">
+              <div class="ipx-island"></div>
+              <div class="ipx-deck" id="ipx-deck"></div>
+              <div class="ipx-gloss"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ipx-cap" id="ipx-cap">
+      <div class="ipx-idx" id="ipx-idx">01 / 03</div>
+      <div class="ipx-nm" id="ipx-nm">Interior Plus</div>
+    </div>
+  </div>
+  <a class="scroll-orbit" href="#about" aria-label="Scroll to About section">
 	    <svg viewBox="0 0 26 40" aria-hidden="true">
 	      <polyline class="scroll-chev scroll-chev--1" points="5 14 13 21 21 14" />
 	      <polyline class="scroll-chev scroll-chev--2" points="5 22 13 29 21 22" />
@@ -1817,118 +1889,4 @@ document.querySelectorAll('.glass-card').forEach(card => {
     if (e.key === 'Escape') closeMenu();
   });
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth >= 960) closeMenu();
-  });
-})();
-
-/* ─── TUBELIGHT NAV ACTIVE ─── */
-(function(){
-  const links = document.querySelectorAll('.nav-links a');
-  const sections = ['about','services','impact','reality-check','how-i-work','playground-1','skills','faq','contact'];
-
-  function setActive(id) {
-    links.forEach(a => {
-      a.classList.remove('active');
-      if(a.getAttribute('href') === '#' + id) a.classList.add('active');
-    });
-  }
-
-  links[0] && links[0].classList.add('active');
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) setActive(e.target.id); });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-
-  sections.forEach(id => { const el = document.getElementById(id); if(el) io.observe(el); });
-})();
-</script>
-
-<!-- ── hero entrance reveal + decode name ── -->
-<script>
-(function(){
-  const hero = document.querySelector('.hero--soft');
-  if(!hero) return;
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  requestAnimationFrame(()=> requestAnimationFrame(()=> hero.classList.add('reveal')));
-
-  // split sub-line into word spans for staggered reveal
-  const sub = hero.querySelector('.hero-sub');
-  if(sub){
-    const accent = ['websites,','apps,','AI'];
-    const words = sub.textContent.split(' ');
-    sub.textContent = '';
-    words.forEach((wd, i)=>{
-      const s = document.createElement('span');
-      s.className = 'sw' + (accent.includes(wd) ? ' sw-accent' : '');
-      s.style.setProperty('--sw', i);
-      s.textContent = wd;
-      sub.appendChild(s);
-      if(i < words.length-1) sub.appendChild(document.createTextNode(' '));
-    });
-  }
-
-  // decode/scramble name
-  const nameEl = hero.querySelector('.hero-name-soft');
-  if(nameEl && !reduce){
-    const target = nameEl.getAttribute('data-decode') || nameEl.textContent;
-    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/<>*#';
-    nameEl.textContent = '';
-    const spans = [];
-    for(const ch of target){
-      const s = document.createElement('span');
-      s.className = 'dc';
-      if(ch === ' '){ s.innerHTML = '&nbsp;'; s.dataset.fixed = '1'; }
-      s.dataset.final = ch;
-      nameEl.appendChild(s);
-      spans.push(s);
-    }
-    const start = 350; // begin after entrance settles a touch
-    const perChar = 55;
-    setTimeout(()=>{
-      spans.forEach((s, i)=>{
-        if(s.dataset.fixed){ return; }
-        let frames = 0;
-        const lockAt = 8 + i * 1.4;
-        s.classList.add('scram');
-        const iv = setInterval(()=>{
-          if(frames >= lockAt){
-            s.textContent = s.dataset.final;
-            s.classList.remove('scram');
-            clearInterval(iv);
-          } else {
-            s.textContent = glyphs[(Math.random()*glyphs.length)|0];
-            frames++;
-          }
-        }, 28);
-      });
-    }, start);
-  }
-
-  // cursor-reactive mesh depth
-  if(!reduce){
-    const mesh = hero.querySelector('.mesh');
-    if(mesh){
-      const blobs = mesh.querySelectorAll('.mesh-blob');
-      let tx=0,ty=0,cx=0,cy=0,raf=null;
-      hero.addEventListener('pointermove', e=>{
-        const r=hero.getBoundingClientRect();
-        tx=((e.clientX-r.left)/r.width-0.5);
-        ty=((e.clientY-r.top)/r.height-0.5);
-        if(!raf) loop();
-      });
-      hero.addEventListener('pointerleave', ()=>{ tx=0; ty=0; });
-      function loop(){
-        cx+=(tx-cx)*0.05; cy+=(ty-cy)*0.05;
-        blobs.forEach((b,i)=>{
-          const depth=(i+1)*14;
-          b.style.translate=(cx*depth).toFixed(1)+'px '+(cy*depth).toFixed(1)+'px';
-        });
-        if(Math.abs(tx-cx)>0.001||Math.abs(ty-cy)>0.001){ raf=requestAnimationFrame(loop); } else { raf=null; }
-      }
-    }
-  }
-})();
-</script>
-</body>
-</html>
+  window.addEventListe
